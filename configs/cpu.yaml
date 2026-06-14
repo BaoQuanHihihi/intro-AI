@@ -1,0 +1,11 @@
+# Gợi ý cho máy yếu / CPU: batch nhỏ, epoch ít hơn (có thể chỉnh thêm).
+train:
+  model_name: xlm-roberta-base
+  fallback_model_name: distilbert-base-multilingual-cased
+  max_length: 192
+  batch_size: 8
+  learning_rate: 2.0e-5
+  num_epochs: 8
+  early_stopping_patience: 2
+  num_workers: 0
+  output_dir: outputs/cpu_run

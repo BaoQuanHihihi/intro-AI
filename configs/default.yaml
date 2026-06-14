@@ -1,0 +1,22 @@
+train:
+  model_name: vinai/phobert-base-v2
+  fallback_model_name: xlm-roberta-base
+  max_length: 256
+  batch_size: 16
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  num_epochs: 15
+  warmup_ratio: 0.06
+  seed: 42
+  val_ratio: 0.1
+  early_stopping_patience: 3
+  label_smoothing: 0.05
+  use_class_weights: true
+  grad_accum_steps: 1
+  max_grad_norm: 1.0
+  num_workers: 0
+  output_dir: outputs/run
+  freeze_encoder_epochs: 0
+  train_path: null
+  test_path: null
+  sample_submission_path: null
