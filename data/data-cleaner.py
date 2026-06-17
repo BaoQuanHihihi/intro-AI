@@ -2,7 +2,7 @@ import re
 import pandas as pd
 from typing import Dict
 
-# 1. Bộ từ điển chuẩn hóa Teencode và Từ viết tắt đặc thù ngành dịch vụ
+# Chuẩn hóa Teencode và Từ viết tắt đặc thù ngành dịch vụ
 TEENCODE_DICT: Dict[str, str] = {
     "ksan": "khách sạn", "ks": "khách sạn", "khách san": "khách sạn",
     "nv": "nhân viên", "pv": "phục vụ", "staff": "nhân viên",
@@ -16,7 +16,7 @@ TEENCODE_DICT: Dict[str, str] = {
     "tuyoi": "tươi", "tuoi": "tươi", "ngòn": "ngon", "p": "phút",
 }
 
-# 2. Bộ từ điển chuyển đổi Emoji phổ biến sang từ ngữ cảm xúc tiếng Việt
+# Chuyển đổi emoji phổ biến
 EMOJI_DICT: Dict[str, str] = {
     "😆": " vui vẻ ", "😊": " hài lòng ", "😍": " tuyệt vời ", "🥰": " yêu thích ",
     "🤤": " ngon lành ", "🤩": " xuất sắc ", "👍": " tốt ", "👌": " đồng ý ",
@@ -30,17 +30,16 @@ def clean_text(text: object) -> str:
     if not isinstance(text, str) or pd.isna(text):
         return " "
     
-    # Bước a: Đưa về viết thường
     text = text.lower()
     
-    # Bước b: Xử lý ký tự xuống dòng ẩn và khoảng trắng thừa
+    # Xử lý ký tự xuống dòng ẩn và khoảng trắng thừa
     text = text.replace("\r\n", " ").replace("\n", " ")
     
-    # Bước c: Chuyển đổi Emoji sang văn bản tiếng Việt
+    # Chuyển đổi Emoji sang văn bản tiếng Việt
     for emoji, text_rep in EMOJI_DICT.items():
         text = text.replace(emoji, text_rep)
         
-    # Bước d: Tách từ sơ bộ để xử lý teencode chính xác (tránh thay thế nhầm từ chứa cụm đó)
+    # Tách từ sơ bộ để xử lý teencode chính xác (tránh thay thế nhầm từ chứa cụm đó)
     words = text.split()
     cleaned_words = []
     for word in words:
@@ -53,8 +52,8 @@ def clean_text(text: object) -> str:
             
     text = " ".join(cleaned_words)
     
-    # Bước e: Dọn dẹp dấu câu thừa, giữ lại dấu chấm/phẩy bám ngữ cảnh câu
-    text = re.sub(r'\s+', ' ', text) # Gộp nhiều dấu cách thành 1
+    # Dọn dẹp dấu câu thừa, giữ lại dấu chấm/phẩy bám ngữ cảnh câu
+    text = re.sub(r'\s+', ' ', text)
     
     return text.strip() if text.strip() else " "
 
@@ -79,5 +78,4 @@ def process_csv(input_path: str, output_path: str):
     df.to_csv(output_path, index=False, encoding="utf-8")
     print(f"--- Đã chuẩn hóa xong và lưu tại: {output_path} ---")
 
-# Ví dụ thực thi:
 process_csv("train_boosted.csv", "train_boosted_cleaned.csv")
