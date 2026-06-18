@@ -1,0 +1,100 @@
+🚀 Bắt đầu huấn luyện hệ thống thông thường (Single Train/Val Split).
+Thiết bị phần cứng: cuda
+Loading weights: 100%
+ 197/197 [00:00<00:00, 1119.37it/s, Materializing param=encoder.layer.11.output.dense.weight]
+RobertaModel LOAD REPORT from: vinai/phobert-base-v2
+Key                             | Status     | 
+--------------------------------+------------+-
+lm_head.layer_norm.bias         | UNEXPECTED | 
+lm_head.dense.weight            | UNEXPECTED | 
+lm_head.layer_norm.weight       | UNEXPECTED | 
+lm_head.dense.bias              | UNEXPECTED | 
+lm_head.bias                    | UNEXPECTED | 
+roberta.embeddings.position_ids | UNEXPECTED | 
+pooler.dense.bias               | MISSING    | 
+pooler.dense.weight             | MISSING    | 
+
+Notes:
+- UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING	:those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+Epoch 1/20: 100%|██████████| 176/176 [01:26<00:00,  2.03it/s, loss=0.5449]
+--> [Ep 1] Train Loss: 0.8340 | Val F1-Micro: 0.7056 | Val Sentiment Acc: 0.5334 | VAL OVERALL: 0.6539
+   [!] Đạt điểm kỷ lục mới: 0.6539
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 2/20: 100%|██████████| 176/176 [01:28<00:00,  1.99it/s, loss=0.4076]
+--> [Ep 2] Train Loss: 0.4793 | Val F1-Micro: 0.7722 | Val Sentiment Acc: 0.5552 | VAL OVERALL: 0.7071
+   [!] Đạt điểm kỷ lục mới: 0.7071
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 3/20: 100%|██████████| 176/176 [01:28<00:00,  1.99it/s, loss=0.5302]
+--> [Ep 3] Train Loss: 0.3685 | Val F1-Micro: 0.7842 | Val Sentiment Acc: 0.5970 | VAL OVERALL: 0.7280
+   [!] Đạt điểm kỷ lục mới: 0.7280
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 4/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.2154]
+--> [Ep 4] Train Loss: 0.2887 | Val F1-Micro: 0.7974 | Val Sentiment Acc: 0.5870 | VAL OVERALL: 0.7343
+   [!] Đạt điểm kỷ lục mới: 0.7343
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 5/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.2393]
+--> [Ep 5] Train Loss: 0.2232 | Val F1-Micro: 0.7770 | Val Sentiment Acc: 0.6304 | VAL OVERALL: 0.7330
+Epoch 6/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.1224]
+--> [Ep 6] Train Loss: 0.1766 | Val F1-Micro: 0.8348 | Val Sentiment Acc: 0.6137 | VAL OVERALL: 0.7685
+   [!] Đạt điểm kỷ lục mới: 0.7685
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 7/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.1078]
+--> [Ep 7] Train Loss: 0.1462 | Val F1-Micro: 0.8261 | Val Sentiment Acc: 0.6254 | VAL OVERALL: 0.7659
+Epoch 8/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.2212]
+--> [Ep 8] Train Loss: 0.1300 | Val F1-Micro: 0.8296 | Val Sentiment Acc: 0.6237 | VAL OVERALL: 0.7679
+Epoch 9/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.0612]
+--> [Ep 9] Train Loss: 0.1028 | Val F1-Micro: 0.8458 | Val Sentiment Acc: 0.6388 | VAL OVERALL: 0.7837
+   [!] Đạt điểm kỷ lục mới: 0.7837
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 10/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.0473]
+--> [Ep 10] Train Loss: 0.0798 | Val F1-Micro: 0.8628 | Val Sentiment Acc: 0.6572 | VAL OVERALL: 0.8011
+   [!] Đạt điểm kỷ lục mới: 0.8011
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 11/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.0827]
+--> [Ep 11] Train Loss: 0.0648 | Val F1-Micro: 0.8517 | Val Sentiment Acc: 0.6572 | VAL OVERALL: 0.7934
+Epoch 12/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.0117]
+--> [Ep 12] Train Loss: 0.0543 | Val F1-Micro: 0.8543 | Val Sentiment Acc: 0.6488 | VAL OVERALL: 0.7927
+Epoch 13/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.0097]
+--> [Ep 13] Train Loss: 0.0431 | Val F1-Micro: 0.8567 | Val Sentiment Acc: 0.6689 | VAL OVERALL: 0.8003
+Epoch 14/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.0339]
+--> [Ep 14] Train Loss: 0.0335 | Val F1-Micro: 0.8585 | Val Sentiment Acc: 0.6589 | VAL OVERALL: 0.7986
+Epoch 15/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.0212]
+--> [Ep 15] Train Loss: 0.0274 | Val F1-Micro: 0.8578 | Val Sentiment Acc: 0.6589 | VAL OVERALL: 0.7981
+Epoch 16/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.0292]
+--> [Ep 16] Train Loss: 0.0233 | Val F1-Micro: 0.8574 | Val Sentiment Acc: 0.6722 | VAL OVERALL: 0.8018
+   [!] Đạt điểm kỷ lục mới: 0.8018
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 17/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.0248]
+--> [Ep 17] Train Loss: 0.0198 | Val F1-Micro: 0.8567 | Val Sentiment Acc: 0.6739 | VAL OVERALL: 0.8018
+   [!] Đạt điểm kỷ lục mới: 0.8018
+   [+] Đã bảo lưu trọng số tối ưu vào: /kaggle/working/outputs/best_model.pth
+Epoch 18/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.0100]
+--> [Ep 18] Train Loss: 0.0175 | Val F1-Micro: 0.8586 | Val Sentiment Acc: 0.6555 | VAL OVERALL: 0.7976
+Epoch 19/20: 100%|██████████| 176/176 [01:27<00:00,  2.01it/s, loss=0.0204]
+--> [Ep 19] Train Loss: 0.0188 | Val F1-Micro: 0.8564 | Val Sentiment Acc: 0.6555 | VAL OVERALL: 0.7962
+Epoch 20/20: 100%|██████████| 176/176 [01:27<00:00,  2.02it/s, loss=0.0616]
+--> [Ep 20] Train Loss: 0.0160 | Val F1-Micro: 0.8557 | Val Sentiment Acc: 0.6572 | VAL OVERALL: 0.7962
+🎯 Hoàn thành quá trình huấn luyện. Điểm Validation tốt nhất: 0.8018
+
+=================== 🏆 ĐÁNH GIÁ MÔ HÌNH TRÊN TẬP TEST ĐỘC LẬP ===================
+Loading weights: 100%
+ 197/197 [00:00<00:00, 1044.51it/s, Materializing param=encoder.layer.11.output.dense.weight]
+RobertaModel LOAD REPORT from: vinai/phobert-base-v2
+Key                             | Status     | 
+--------------------------------+------------+-
+lm_head.layer_norm.bias         | UNEXPECTED | 
+lm_head.dense.weight            | UNEXPECTED | 
+lm_head.layer_norm.weight       | UNEXPECTED | 
+lm_head.dense.bias              | UNEXPECTED | 
+lm_head.bias                    | UNEXPECTED | 
+roberta.embeddings.position_ids | UNEXPECTED | 
+pooler.dense.bias               | MISSING    | 
+pooler.dense.weight             | MISSING    | 
+
+Notes:
+- UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING	:those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+➔ [TEST SET] F1-Micro Aspect: 0.8547
+➔ [TEST SET] Sentiment Accuracy: 0.7072
+➔ 🌟 [TEST SET] FINAL OVERALL SCORE: 0.8104

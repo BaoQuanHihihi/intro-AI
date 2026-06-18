@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Single-file script for Kaggle: 5-Fold Shared PhoBERT Encoder with 6 Independent Multi-Class Sentiment Heads.
-Hiệu chỉnh bởi: Giáo sư Nghiên cứu Model & NLP
 """
 
 from __future__ import annotations
@@ -26,7 +25,6 @@ from transformers import (
     AutoTokenizer,
     get_cosine_schedule_with_warmup,
 )
-# Thêm thư viện KFold từ Scikit-Learn
 from sklearn.model_selection import KFold
 
 # ==========================================
@@ -108,13 +106,13 @@ class TrainConfig:
     num_epochs: int = 20
     warmup_ratio: float = 0.1
     seed: int = 42
-    n_folds: int = 5       # Tham số định nghĩa số lượng Folds
+    n_folds: int = 5
     early_stopping_patience: int = 15
     max_grad_norm: float = 1.0
     
     train_path: str = "/kaggle/input/datasets/baoquanhihihi/dataset-for-introduction-to-ai-course-hust/train_split.csv"
     test_path: str = "/kaggle/input/datasets/baoquanhihihi/dataset-for-introduction-to-ai-course-hust/test_split.csv" 
-    output_dir: str = "/kaggle/working/outputs_multi_class_v3"
+    output_dir: str = "/kaggle/working/outputs_kfold"
     
     lambda_aspect: float = 0.7 
     lambda_sentiment: float = 0.3
@@ -225,7 +223,6 @@ def train() -> None:
     LOG.info(f"🚀 Bắt đầu huấn luyện hệ thống {cfg.n_folds}-Fold Cross Validation.")
     LOG.info(f"Thiết bị phần cứng: {device}")
 
-    # 1. Tải và xử lý tập dữ liệu tổng chỉnh chu
     full_df = load_and_clean_dataset(Path(cfg.train_path))
     test_df = load_and_clean_dataset(Path(cfg.test_path))
 
@@ -238,21 +235,21 @@ def train() -> None:
     )
     test_loader = DataLoader(test_ds, batch_size=cfg.batch_size, shuffle=False, pin_memory=True)
     
-    # 2. Khởi tạo cấu trúc phân chia dữ liệu K-Fold
+    # Phân chia dữ liệu theo K-Fold
     kf = KFold(n_splits=cfg.n_folds, shuffle=True, random_state=cfg.seed)
     
     # Mảng lưu giữ thành tích tối ưu của các fold nhằm tính điểm phân phối cuối cùng
     fold_best_scores = []
 
-    # VÒNG LẶP CHÍNH KHỞI TẠO TỪNG FOLD LẬP
+    # VÒNG LẶP CHÍNH KHỞI TẠO TỪNG FOLD
     for fold, (train_idx, val_idx) in enumerate(kf.split(full_df), 1):
         LOG.info(f"\n=================== 📦 FOLD {fold}/{cfg.n_folds} ===================")
         
-        # Phân mảnh tập dữ liệu tương ứng với index của Fold hiện tại
+        # Phân mảnh dataset tương ứng với index của Fold hiện tại
         train_df = full_df.iloc[train_idx].reset_index(drop=True)
         val_df = full_df.iloc[val_idx].reset_index(drop=True)
         
-        # Tạo mới hoàn toàn thực thể Model và Tokenizer cho riêng fold này
+        # Tạo mới Model cho riêng fold này
         model = build_model_and_tokenizer(cfg.model_name)
         model.to(device)
         
@@ -304,7 +301,7 @@ def train() -> None:
             optimizer=optim, num_warmup_steps=int(total_steps * cfg.warmup_ratio), num_training_steps=total_steps
         )
         
-        # Biến theo dõi trạng thái tối ưu nội bộ của Fold hiện hành
+        # Biến theo dõi trạng thái tối ưu của Fold hiện tại
         best_fold_score = -1.0
         patience = cfg.early_stopping_patience
 
@@ -360,9 +357,8 @@ def train() -> None:
             if metrics["overall_score"] > best_fold_score:
                 best_fold_score = metrics["overall_score"]
                 patience = cfg.early_stopping_patience
-                LOG.info(f"   [!] Đạt điểm kỷ lục mới cho Fold {fold}: {best_fold_score:.4f}")
+                LOG.info(f"   [!] Đạt điểm mới cho Fold {fold}: {best_fold_score:.4f}")
                 
-                # Tên file được định vị theo chỉ số fold để tránh ghi đè dữ liệu cũ
                 save_path = os.path.join(cfg.output_dir, f"best_model_fold_{fold}.pth")
                 torch.save(actual_model.state_dict(), save_path)
                 LOG.info(f"   [+] Đã bảo lưu trọng số tối ưu vào: {save_path}")
@@ -387,7 +383,7 @@ def train() -> None:
     LOG.info("\n=================== 📊 BÁO CÁO HIỆU SUẤT TỔNG THỂ K-FOLD ===================")
     for i, score in enumerate(fold_best_scores, 1):
         LOG.info(f"Fold {i}: {score:.4f}")
-    LOG.info(f"➔ Độ chính xác tích lũy trung bình ({cfg.n_folds}-Fold Mean Score): {np.mean(fold_best_scores):.4f}")
+    LOG.info(f"➔ Độ chính xác trung bình ({cfg.n_folds}-Fold Mean Score): {np.mean(fold_best_scores):.4f}")
 
 
 
@@ -400,7 +396,7 @@ def train() -> None:
     model_paths = [os.path.join(cfg.output_dir, f"best_model_fold_{i}.pth") for i in range(1, cfg.n_folds + 1)]
     models = []
     
-    # Load lại cấu trúc và nạp trọng số của từng fold vào một danh sách
+    # Load lại cấu trúc và nạp trọng số của từng fold vào danh sách
     for pth in model_paths:
         m = SharedEncoderMultiClassModel(cfg.model_name)
         m.load_state_dict(torch.load(pth, map_location=device))
@@ -412,7 +408,7 @@ def train() -> None:
     ensemble_aspect_probs = []
     ensemble_sentiment_probs = []
 
-    # Tiến hành dự đoán tích lũy xác suất từ tất cả 5 mô hình
+    # Dự đoán
     with torch.no_grad():
         for batch in test_loader:
             input_ids = batch["input_ids"].to(device)
@@ -421,7 +417,7 @@ def train() -> None:
             batch_aspect_probs = 0.0
             batch_sentiment_probs = 0.0
             
-            # Tính trung bình xác suất của 5 mô hình
+            # Tính trung bình xác suất của 5 model
             for m in models:
                 aspect_logits, sentiment_logits = m(input_ids, attention_mask)
                 
