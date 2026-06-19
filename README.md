@@ -1,4 +1,4 @@
-# Aspect-Based Sentiment Analysis for Vietnamese Tourism Reviews
+# SENTIMENT ANALYSIS AND CLASSIFICATION FOR TOURISM REVIEWS IN VIETNAMESE
 
 Hệ thống phân tích cảm xúc đa khía cạnh cho các bài đánh giá du lịch tiếng Việt, sử dụng mô hình ngôn ngữ **PhoBERT** (vinai/phobert-base-v2) kết hợp kiến trúc Multi-Head Classification. Dự án xây dựng và so sánh **hai phương pháp huấn luyện** trên bộ dữ liệu review du lịch:
 
@@ -175,21 +175,21 @@ python predict.py --checkpoint_dir outputs/run --test_path data/gt_reviews_test.
 
 ### Kết quả 5-Fold Cross Validation
 
-| Fold | Train Loss | F1-Micro | Sentiment Acc | Overall Score |
-| :---: | :---: | :---: | :---: | :---: |
-| Fold 1 | 0.0191 | 0.8527 | 0.6875 | 0.8031 |
-| Fold 2 | 0.0678 | 0.8550 | 0.6753 | 0.8011 |
-| Fold 3 | 0.0189 | 0.8628 | 0.6905 | 0.8111 |
-| Fold 4 | 0.0305 | 0.8655 | 0.6760 | 0.8086 |
-| Fold 5 | 0.0169 | 0.8377 | 0.6717 | 0.7879 |
-| **Mean** | - | - | - | **0.8024** |
+| Fold | F1-Micro | Sentiment Acc | Overall Score |
+| :---: | :---: | :---: | :---: |
+| Fold 1 | 84.54 | 71.73 | 80.70 |
+| Fold 2 | 85.03 | 70.01 | 80.52 |
+| Fold 3 | 85.40 | 72.04 | 81.39 |
+| Fold 4 | 85.11 | 71.73 | 81.10 |
+| Fold 5 | 85.66 | 69.40 | 80.78 |
+| **Mean** | **85.15** | **70.98** | **80.90** |
 
 ### Kết quả đánh giá trên tập Test độc lập
 
 | Mô hình | F1-Micro | Sentiment Acc | Overall Score |
 |---|---|---|---|
-| Single Model | 0.8547 | 0.7072 | 0.8104 |
-| **5-Fold Ensemble** | **0.8628** | **0.7497** | **0.8289** |
+| Single Model (Fold 1) | 84.54 | 71.73 | 80.70 |
+| **5-Fold Ensemble** | **86.09** | **75.58** | **82.94** |
 
 ---
 
@@ -199,9 +199,9 @@ Dưới đây là bảng phân công công việc chi tiết cho các thành vi�
 
 | STT | Họ và tên | MSSV | Nhiệm vụ cụ thể | Đóng góp |
 | :---: | :--- | :---: | :--- | :---: |
-| 1 | **Đặng Bảo Quân** | 202416319 | - Thu thập, làm sạch và tăng cường dữ liệu (`data-cleaner.py`, `merge-data.py`, `split-data.py`).<br>- Phân tích thống kê và trực quan hóa phân bố dữ liệu (`data-statistic.py`).<br>- Xây dựng pipeline tiền xử lý văn bản (xử lý teencode, emoji, chuẩn hóa).<br>- Biên soạn báo cáo kỹ thuật tổng hợp. | 100% |
-| 2 | **Nguyễn Hoàng Gia** | 202400040 | - Thiết kế kiến trúc mô hình `JointAspectSentimentModel` và `SharedEncoderMultiClassModel` (`src/model.py`, `all_code_kfold.py`).<br>- Xây dựng hệ thống cấu hình YAML và pipeline huấn luyện (`src/config.py`, `train.py`).<br>- Triển khai chiến lược 5-Fold Cross Validation và Ensemble Soft Voting.<br>- Tinh chỉnh siêu tham số và tối ưu hóa hiệu năng mô hình. | 100% |
-| 3 | **Nguyễn Tuấn Long** | 202416269 | - Xây dựng module đánh giá và các chỉ số Micro-F1, Sentiment Accuracy, Overall Score (`src/metrics.py`, `evaluate.py`).<br>- Triển khai pipeline dự đoán trên tập test (`predict.py`).<br>- Xây dựng Dataset và DataLoader cho bài toán multi-head classification (`src/data.py`).<br>- Chuẩn bị tài liệu thuyết trình (slides) và thực hiện kiểm thử hệ thống. | 100% |
+| 1 | **Đặng Bảo Quân** | 202416319 | - Thu thập, làm sạch và tăng cường dữ liệu (`data-cleaner.py`, `merge-data.py`, `split-data.py`).<br>- Phân tích thống kê và trực quan hóa phân bố dữ liệu (`data-statistic.py`).<br>- Xây dựng pipeline tiền xử lý văn bản (xử lý teencode, emoji, chuẩn hóa).<br>- Biên soạn báo cáo kỹ thuật tổng hợp. | 33.3% |
+| 2 | **Nguyễn Hoàng Gia** | 202400040 | - Thiết kế kiến trúc mô hình `JointAspectSentimentModel` và `SharedEncoderMultiClassModel` (`src/model.py`, `all_code_kfold.py`).<br>- Xây dựng hệ thống cấu hình YAML và pipeline huấn luyện (`src/config.py`, `train.py`).<br>- Triển khai chiến lược 5-Fold Cross Validation và Ensemble Soft Voting.<br>- Tinh chỉnh siêu tham số và tối ưu hóa hiệu năng mô hình. | 33.3% |
+| 3 | **Nguyễn Tuấn Long** | 202416269 | - Xây dựng module đánh giá và các chỉ số Micro-F1, Sentiment Accuracy, Overall Score (`src/metrics.py`, `evaluate.py`).<br>- Triển khai pipeline dự đoán trên tập test (`predict.py`).<br>- Xây dựng Dataset và DataLoader cho bài toán multi-head classification (`src/data.py`).<br>- Chuẩn bị tài liệu thuyết trình (slides) và thực hiện kiểm thử hệ thống. | 33.3% |
 
 ---
 
