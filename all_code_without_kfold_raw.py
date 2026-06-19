@@ -112,9 +112,9 @@ class TrainConfig:
     early_stopping_patience: int = 15
     max_grad_norm: float = 1.0
     
-    train_path: str = "/kaggle/input/datasets/baoquanhihihi/dataset-for-introduction-to-ai-course-hust/train_split.csv"
-    test_path: str = "/kaggle/input/datasets/baoquanhihihi/dataset-for-introduction-to-ai-course-hust/test_split.csv" 
-    output_dir: str = "/kaggle/working/outputs"
+    train_path: str = "/kaggle/input/datasets/baoquanhihihi/dataset-for-introduction-to-ai-course-hust/train_split_segment.csv"
+    test_path: str = "/kaggle/input/datasets/baoquanhihihi/dataset-for-introduction-to-ai-course-hust/test_split_segment.csv" 
+    output_dir: str = "/kaggle/working/outputs_kfold_segment"
     
     lambda_aspect: float = 0.7 
     lambda_sentiment: float = 0.3
@@ -344,7 +344,7 @@ def train() -> None:
             
             save_path = os.path.join(cfg.output_dir, "best_model.pth")
             torch.save(actual_model.state_dict(), save_path)
-            LOG.info(f"   [+] Đã bảo lưu trọng số tối ưu vào: {save_path}")
+            LOG.info(f"   [+] Đã lưu trọng số tối ưu vào: {save_path}")
         else:
             patience -= 1
             if patience <= 0:

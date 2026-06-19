@@ -28,6 +28,7 @@ MANIFEST
 # 2. Môi trường ảo (Virtual Environments)
 # ==========================================
 .venv/
+.venv311/
 venv/
 ENV/
 env/
