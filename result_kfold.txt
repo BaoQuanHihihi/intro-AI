@@ -1,0 +1,19 @@
+model 1
+=================== 📊 ĐÁNH GIÁ CHẤT LƯỢNG ENSEMBLE TRÊN TẬP TEST ===================
+➔ [TEST SET] F1-Micro Aspect: 0.8454
+➔            Sentiment Accuracy: 0.7173
+➔            ENSEMBLE OVERALL SCORE (0.7*F1 + 0.3*Acc): 0.8070
+
+
+model 1 2 3 4
+=================== 📊 ĐÁNH GIÁ CHẤT LƯỢNG ENSEMBLE TRÊN TẬP TEST ===================
+➔ [TEST SET] F1-Micro Aspect: 0.8580
+➔            Sentiment Accuracy: 0.7538
+➔            ENSEMBLE OVERALL SCORE (0.7*F1 + 0.3*Acc): 0.8268
+
+
+model 1 2 3 4 5
+=================== 📊 ĐÁNH GIÁ CHẤT LƯỢNG ENSEMBLE TRÊN TẬP TEST ===================
+➔ [TEST SET] F1-Micro Aspect: 0.8609
+➔            Sentiment Accuracy: 0.7558
+➔            ENSEMBLE OVERALL SCORE (0.7*F1 + 0.3*Acc): 0.8294
